@@ -16,3 +16,5 @@ export const apiSign = axios.create({
 
 export const sendMessageRoute = `${host}/api/messages/addmsg`;
 export const recieveMessageRoute = `${host}/api/messages/getmsg`;
+    baseURL: 'http://localhost:5000/users'
+})
