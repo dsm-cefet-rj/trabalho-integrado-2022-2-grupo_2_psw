@@ -5,25 +5,37 @@ import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import { useForm } from 'react-hook-form'
-import './Cadastro.modules.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../../apiEndpoints';
-
 
 export default function Cadastro() {
 
    const { register, handleSubmit, formState: { errors }, reset, trigger, } = useForm()
+   const navigate = useNavigate()
 
    const onSubmit = (data) => {
+
       const userData = {
          name: data.nomeCompleto,
          email: data.email,
          password: data.senha,
          confirmPassword: data.confirmarSenha
       }
+
       console.log(userData)
       api.post('/users', userData)
       reset()
+
+      if(data.senha !== data.confirmarSenha)
+      {
+         alert('As senhas precisam ser iguais!')
+         return
+      }
+      else 
+      {
+         alert('Cadastro realizado com sucesso!')
+         navigate('/Login')
+      }
    }
 
    const onError = (errors) => {
@@ -50,33 +62,6 @@ export default function Cadastro() {
                </Form.Group>
 
                <Form.Group as={Col}>
-                  <Form.Label className='mt-5 text-light'>CPF</Form.Label>
-                  <Form.Control className='border border-2 border-dark' maxLength={11} type="text" placeholder='Digite seu CPF' {...register("cpf", {
-                     required: "Por favor, digite seu CPF",
-                     pattern: {
-                        value: /^[0-9]*$/,
-                        message: "Use somente números"
-                     },
-                     minLength: {
-
-                        value: 11,
-                        message: "CPF inválido"
-                     },
-                     maxLength: {
-
-                        value: 11,
-                        message: "CPF inválido"
-                     }
-                  })}
-                     onKeyUp={() => {
-                        trigger("cpf")
-                     }}></Form.Control>
-                  {errors.cpf && (<small className="text-danger">{errors.cpf.message}</small>)}
-               </Form.Group>
-
-            </Row>
-            <Row>
-               <Form.Group as={Col}>
                   <Form.Label className='mt-5 text-light'>E-mail</Form.Label>
                   <Form.Control className='border border-2 border-dark' type="email" placeholder='Informe seu e-mail' {...register("email", {
                      required: "Por favor, digite seu e-mail",
@@ -90,24 +75,8 @@ export default function Cadastro() {
                      }}></Form.Control>
                   {errors.email && (<small className="text-danger">{errors.email.message}</small>)}
                </Form.Group>
-
-               <Form.Group as={Col}>
-                  <Form.Label className='mt-5 text-light'>Celular</Form.Label>
-                  <Form.Control className='border border-2 border-dark' maxLength={11} type="tel" placeholder='Digite seu número de celular' {...register("celular", {
-                     required: "Por favor, informe seu número de celular",
-                     pattern: {
-                        value: /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-.]*(\d{4})(?: *x(\d+))?\s*$/,
-                        message: "Use somente número juntamente com o DDD"
-                     }
-                  })}
-                     onKeyUp={() => {
-                        trigger("celular")
-                     }}></Form.Control>
-                  {errors.celular && (<small className="text-danger">{errors.celular.message}</small>)}
-
-               </Form.Group>
-
             </Row>
+               
             <Row>
                <Form.Group as={Col}>
                   <Form.Label className='mt-5 text-light'>Senha</Form.Label>
@@ -132,8 +101,8 @@ export default function Cadastro() {
 
             <Form.Group className='mt-5'>
 
-               <Link to={'/Login'}><Button className="btn btn-danger me-3">Login</Button></Link>
-               <Button className="btn btn-success" type="submit">Cadastrar</Button>
+               <Form.Control className='btn btn-primary mt-5' type='submit' value='CADASTRAR'></Form.Control>
+
 
             </Form.Group>
          </Form>
