@@ -30,8 +30,6 @@ export default function Home() {
     getProducts();
   }, [setProdutos]);
 
-  const productoBuscado = useRecoilValue(seekProductState);
-
   function removeProducts(id) {
     const produto = produtos.filter((produto) => produto._id === id)[0];
     console.log(produto);
