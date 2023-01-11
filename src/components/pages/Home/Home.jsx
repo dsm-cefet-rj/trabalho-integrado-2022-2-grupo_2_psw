@@ -30,11 +30,30 @@ export default function Home() {
     getProducts();
   }, [setProdutos]);
 
-  function removeProducts(id) {
-    const produto = produtos.filter((produto) => produto._id === id)[0];
-    console.log(produto);
+    function removeProducts(id) {
+      const produto = produtos.filter((produto) => produto._id === id)[0];
+      console.log(produto);
 
-    api.delete(`produtos/${id}`);
+      if(!usuario)
+      {
+         alert('Você precisa estar logado!')
+         navigate('/Login')
+      }
+
+      if(produto.userId === usuario._id)
+      {
+         api.delete(`produtos/${usuario._id}/${id}`, {
+            headers: {
+               authorization: 'Bearer ' + token
+            }
+         });
+      }
+      else
+      {
+         alert('Este produto não é seu kkkk!')
+      }
+
+
     //window.location.reload(false)
   }
 
