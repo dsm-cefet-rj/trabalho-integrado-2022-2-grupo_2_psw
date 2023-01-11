@@ -68,6 +68,9 @@ export default function NavBar({ open }) {
                         {usuario.name.split(' ')[0]}
                      </Link>
                   </li>
+                  <li>
+                     Sair
+                  </li>
                </>
             )}
          </UL>

@@ -6,12 +6,14 @@ import styles from "./Home.module.css"
 import Button from "../../layout/Button/Button"
 import { api } from '../../../apiEndpoints'
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Home() {
    const [produtos, setProdutos] = useRecoilState(listaProdutos)
    const usuario = useRecoilValue(usuarioLogadoState)
    const token = useRecoilValue(tokenState)
+   const navigate = useNavigate()
 
    useEffect(() => {
       const getProducts = async () => {
@@ -25,11 +27,22 @@ export default function Home() {
    const productoBuscado = useRecoilValue(seekProductState)
 
    function removeProducts(id) {
+
+      const produto = produtos.filter(produto => produto._id === id)[0]
+      console.log(produto)
+
       api.delete(`produtos/${id}`);
-      window.location.reload(false)
+      //window.location.reload(false)
    }
 
    function adicionarAoCarrinho(id) {
+
+      if(!usuario)
+      {
+         alert('Voce precisa estar logado!')
+         navigate('/Login')
+      }
+
       api.patch(`carrinho/${usuario._id}`, {
          produtos: {
             idProduto: id,
@@ -44,12 +57,25 @@ export default function Home() {
       })
    }
 
+   function redirect() {
+
+      if(usuario)
+      {
+         navigate('/new-product')
+      }
+      else
+      {
+         alert('Voce deve estar logado!')
+         navigate('/Login')
+      }
+   }
+
    return (
       <main className={styles.products_container}>
          <div className={styles.redirect_button}>
-            <Link to={'/new-product'}>
-               <Button conteudoBtn='Adicionar produto' />
-            </Link>
+
+            <button onClick={redirect}>Adicionar produto</button>
+
          </div>
          {/* Verifica se tem algum produto cadastrado e renderiza os produtos */}
          <div className={styles.card_container}>
