@@ -14,8 +14,11 @@ export default function Login() {
    const { register, handleSubmit, formState: { errors }, trigger, } = useForm()
 
    const [usuarios, setUsuarios] = useRecoilState(usersState)
+   // eslint-disable-next-line no-unused-vars
    const [token, setToken] = useRecoilState(tokenState)
+   // eslint-disable-next-line no-unused-vars
    const [carrinho, setCarrinho] = useRecoilState(carrinhoState)
+   // eslint-disable-next-line no-unused-vars
    const estadoCarrinho = useRecoilValue(carrinhoState)
    // eslint-disable-next-line no-unused-vars
    const [usuarioLogado, setUsuarioLogado] = useRecoilState(usuarioLogadoState)

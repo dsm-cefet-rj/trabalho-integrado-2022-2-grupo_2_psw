@@ -12,6 +12,7 @@ export default function Home() {
    const [produtos, setProdutos] = useRecoilState(listaProdutos)
    const usuario = useRecoilValue(usuarioLogadoState)
    const token = useRecoilValue(tokenState)
+   const productoBuscado = useRecoilValue(seekProductState)
 
    useEffect(() => {
       const getProducts = async () => {
@@ -22,11 +23,13 @@ export default function Home() {
       getProducts()
    }, [setProdutos])
 
-   const productoBuscado = useRecoilValue(seekProductState)
 
    function removeProducts(id) {
-      api.delete(`produtos/${id}`);
-      window.location.reload(false)
+      api.delete(`produtos/${id}`, {
+         headers: {
+            authorization: 'Bearer ' + token
+         }
+      });
    }
 
    function adicionarAoCarrinho(id) {
