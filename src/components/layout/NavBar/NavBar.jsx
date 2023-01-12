@@ -1,7 +1,7 @@
 import styles from './NavBar.module.css'
 import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { usuarioLogadoState } from '../../../atoms'
 
 const UL = styled.ul`
@@ -35,7 +35,24 @@ const UL = styled.ul`
 
 export default function NavBar({ open }) {
 
-   const usuario = useRecoilValue(usuarioLogadoState)
+   const [usuario, setUsuario] = useRecoilState(usuarioLogadoState)
+   const navigate = useNavigate()
+
+   function logout(){
+      
+      if(usuario)
+      {
+         var x = window.confirm('Tem certeza que deseja sair ?')
+
+         if(x)
+         {
+            sessionStorage.removeItem('token')
+            setUsuario(undefined)
+            navigate('/Login')
+         }
+      }
+   }
+
    return (
       <nav className={styles.nav_container}>
          <UL open={open}>
@@ -68,8 +85,10 @@ export default function NavBar({ open }) {
                         {usuario.name.split(' ')[0]}
                      </Link>
                   </li>
-                  <li>
-                     Sair
+                  <li onClick={logout}>
+                     <Link>
+                        Sair
+                     </Link>
                   </li>
                </>
             )}
