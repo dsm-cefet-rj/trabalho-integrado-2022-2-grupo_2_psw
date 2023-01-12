@@ -50,9 +50,8 @@ export default function Home() {
       }
       else
       {
-         alert('Este produto não é seu kkkk!')
+         alert('Você não cadastrou este produto, logo não pode removê-lo.')
       }
-
 
     //window.location.reload(false)
   }
