@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   seekProductState,
@@ -8,7 +7,6 @@ import {
 } from "../../../atoms";
 import CardProduto from "../CardProduto/CardProduto";
 import styles from "./Home.module.css";
-import Button from "../../layout/Button/Button";
 import { api } from "../../../apiEndpoints";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,6 +45,7 @@ export default function Home() {
                authorization: 'Bearer ' + token
             }
          });
+         alert('Produto removido.')
       }
       else
       {

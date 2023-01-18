@@ -55,7 +55,7 @@ export default function Login() {
                }
             }).then(res => setCarrinho(res.data[0]))
             
-            sessionStorage.setItem('token', res.data.token)
+            localStorage.setItem('token', res.data.token)
             setToken(res.data.token)
 
          })
